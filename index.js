@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
+const todoRoutes = require('./routes/todos')
 
 // port var
 
@@ -8,7 +9,11 @@ const PORT = process.env.PORT || 5000
 
 
 // hoisting a server, connect layout engine & DB
+
+// create objet of application
 const app = express()
+
+// send params to view engine
 const hbs = exphbs.create({
     default: 'main',
     extname: 'hbs'
@@ -22,6 +27,14 @@ app.set('view engine', 'hbs')
 app.set('views', 'views')
 
 
+// extend reading of urls by express
+
+app.use(express.urlencoded({extended: true}))
+
+// connect one of middlewares due to 'use' of express
+// register routes middlewares
+app.use(todoRoutes)
+
 
 async function start() {
 
@@ -33,7 +46,7 @@ async function start() {
             useFindAndModify: false
         })
 
-
+        // start a server with the port
         app.listen(PORT, () => {
             console.log('Server has been started');
 

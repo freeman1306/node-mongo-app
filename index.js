@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const path = require('path')
 const exphbs = require('express-handlebars')
 const todoRoutes = require('./routes/todos')
 
@@ -29,7 +30,9 @@ app.set('views', 'views')
 
 // extend reading of urls by express
 
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 // connect one of middlewares due to 'use' of express
 // register routes middlewares
